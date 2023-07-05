@@ -16,3 +16,7 @@ C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto
 C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\obj\Debug\net6.0-windows\ProcesamientoDeImagenes.pdb
 C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\obj\Debug\net6.0-windows\ProcesamientoDeImagenes.genruntimeconfig.cache
 C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\obj\Debug\net6.0-windows\ref\ProcesamientoDeImagenes.dll
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\AForge.dll
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\AForge.Video.dll
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\AForge.Video.DirectShow.dll
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\obj\Debug\net6.0-windows\ProcesamientoDeImagenes.csproj.CopyComplete
