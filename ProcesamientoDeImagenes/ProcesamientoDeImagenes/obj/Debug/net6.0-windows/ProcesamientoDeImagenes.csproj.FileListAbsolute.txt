@@ -20,3 +20,8 @@ C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto
 C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\AForge.Video.dll
 C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\AForge.Video.DirectShow.dll
 C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\obj\Debug\net6.0-windows\ProcesamientoDeImagenes.csproj.CopyComplete
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\Emgu.CV.dll
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\AForge.Imaging.dll
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\AForge.Math.dll
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\AForge.Vision.dll
+C:\Users\luisa\Documents\UANL\SEM 11\ProcDeImagenes\RepositorioProyecto\Proyecto_ProcesamientoImagenes\ProcesamientoDeImagenes\ProcesamientoDeImagenes\bin\Debug\net6.0-windows\haarcascade_frontalface_default.xml
