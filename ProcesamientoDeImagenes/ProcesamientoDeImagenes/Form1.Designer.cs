@@ -224,7 +224,7 @@
             comboBox_Camara.Name = "comboBox_Camara";
             comboBox_Camara.Size = new Size(252, 23);
             comboBox_Camara.TabIndex = 2;
-            comboBox_Camara.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            comboBox_Camara.SelectedIndexChanged += comboBox_Cam_SelectedIndexChanges;
             // 
             // button4_Imagen_Apply
             // 
@@ -583,7 +583,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(134, 150, 254);
-            ClientSize = new Size(1197, 832);
+            ClientSize = new Size(1235, 832);
             Controls.Add(groupBox1_Inicio);
             Controls.Add(groupBox_Video);
             Controls.Add(groupBox_Camara);
