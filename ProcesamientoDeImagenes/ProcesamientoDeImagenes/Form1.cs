@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using Emgu.CV.CvEnum;
 
 namespace ProcesamientoDeImagenes
 {
@@ -17,6 +18,14 @@ namespace ProcesamientoDeImagenes
         OpenFileDialog baseImage;
 
         OpenFileDialog baseVideo;
+        Bitmap video;
+        VideoCapture grabber;
+        Bitmap currentFrame;
+        double duracion;
+        double frameCount;
+        bool videoLoad = false;
+        bool isPlaying = false;
+
 
         static readonly CascadeClassifier cascadeClassifier = new CascadeClassifier("haarcascade_frontalface_alt_tree.xml");
 
@@ -27,6 +36,31 @@ namespace ProcesamientoDeImagenes
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            comboBox_imagen.Items.Add("Tono - Rojo");
+            comboBox_imagen.Items.Add("Tono - Verde");
+            comboBox_imagen.Items.Add("Tono - Azul");
+            comboBox_imagen.Items.Add("Negativo");
+            comboBox_imagen.Items.Add("Aberracion Cromatica");
+            comboBox_imagen.Items.Add("Pixeleado");
+            comboBox_imagen.Items.Add("Color Slicing");
+            comboBox_imagen.Items.Add("Viñeta");
+            comboBox_imagen.Items.Add("Contraste");
+            comboBox_imagen.Items.Add("Agudizacion");
+            comboBox_imagen.Items.Add("Correccion de Gama");
+            comboBox_imagen.Items.Add("Suavizado Gaussiano");
+
+            comboBox3_Video.Items.Add("Tono - Rojo");
+            comboBox3_Video.Items.Add("Tono - Verde");
+            comboBox3_Video.Items.Add("Tono - Azul");
+            comboBox3_Video.Items.Add("Negativo");
+            comboBox3_Video.Items.Add("Aberracion Cromatica");
+            comboBox3_Video.Items.Add("Pixeleado");
+            comboBox3_Video.Items.Add("Color Slicing");
+            comboBox3_Video.Items.Add("Viñeta");
+            comboBox3_Video.Items.Add("Contraste");
+            comboBox3_Video.Items.Add("Agudizacion");
+            comboBox3_Video.Items.Add("Correccion de Gama");
+            comboBox3_Video.Items.Add("Suavizado Gaussiano");
 
         }
 
@@ -46,19 +80,7 @@ namespace ProcesamientoDeImagenes
 
             if (baseImage.ShowDialog() == DialogResult.OK)
             {
-                comboBox_imagen.Items.Clear();
-                comboBox_imagen.Items.Add("Tono - Rojo");
-                comboBox_imagen.Items.Add("Tono - Verde");
-                comboBox_imagen.Items.Add("Tono - Azul");
-                comboBox_imagen.Items.Add("Negativo");
-                comboBox_imagen.Items.Add("Aberracion Cromatica");
-                comboBox_imagen.Items.Add("Pixeleado");
-                comboBox_imagen.Items.Add("Color Slicing");
-                comboBox_imagen.Items.Add("Viñeta");
-                comboBox_imagen.Items.Add("Contraste");
-                comboBox_imagen.Items.Add("Agudizacion");
-                comboBox_imagen.Items.Add("Correccion de Gama");
-                comboBox_imagen.Items.Add("Suavizado Gaussiano");
+
 
                 comboBox_imagen.SelectedIndex = 0;
 
@@ -191,6 +213,9 @@ namespace ProcesamientoDeImagenes
         #endregion
 
         #region Video
+
+        bool applyFilter = false;
+
         //Boton de Seleccionar video
         private void button2_Click(object sender, EventArgs e)
         {
@@ -200,7 +225,21 @@ namespace ProcesamientoDeImagenes
 
             if (baseVideo.ShowDialog() == DialogResult.OK)
             {
+                comboBox3_Video.SelectedIndex = 0;
 
+                grabber = new VideoCapture(baseVideo.FileName);
+                grabber.QueryFrame();
+                Mat m = new Mat();
+                grabber.Read(m);
+
+                currentFrame = m.ToBitmap();
+
+                pictureBox3_Video.Image = currentFrame;
+
+                duracion = grabber.Get(CapProp.FrameCount);
+                frameCount = grabber.Get(CapProp.PosFrames);
+
+                videoLoad = true;
             }
             else
             {
@@ -208,6 +247,154 @@ namespace ProcesamientoDeImagenes
             }
 
         }
+        //Boton Reproducir
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            if (videoLoad)
+            {
+                if (isPlaying)
+                {
+                    Application.Idle -= reproducirVideo;
+                    isPlaying = false;
+                }
+                else
+                {
+                    Application.Idle += reproducirVideo;
+                    isPlaying = true;
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("No se cargo el video", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        private void reproducirVideo(object sender, EventArgs e)
+        {
+            isPlaying = true;
+
+            if (frameCount < duracion - 1)
+            {
+                Mat m = new Mat();
+                grabber.Read(m);
+
+                currentFrame = m.ToBitmap();
+                pictureBox3_Video.Image = currentFrame;
+
+                if (applyFilter)
+                    aplicarFiltroVideo();
+
+                frameCount = grabber.Get(CapProp.PosFrames);
+            }
+            else
+            {
+                Application.Idle -= reproducirVideo;
+                isPlaying = false;
+
+                frameCount = 0;
+                grabber.Set(CapProp.PosFrames, 0);
+            }
+
+
+        }
+        //Boton de Reinicio
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            if (videoLoad && !isPlaying)
+            {
+                frameCount = 0;
+                grabber.Set(CapProp.PosFrames, 0);
+
+                Mat m = new Mat();
+                grabber.Read(m);
+
+                currentFrame = m.ToBitmap();
+                pictureBox3_Video.Image = currentFrame;
+
+                frameCount = grabber.Get(CapProp.PosFrames);
+            }
+        }
+        //combobox de video
+        private void comboBox3_Video_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string filtroSeleccionado = comboBox3_Video.SelectedItem.ToString();
+
+
+            if (filtroSeleccionado == "Tono - Rojo" || filtroSeleccionado == "Tono - Verde" || filtroSeleccionado == "Tono - Azul")
+            {
+                trackBar2_Video.Visible = true;
+            }
+            else
+            {
+
+                trackBar2_Video.Visible = false;
+            }
+        }
+        //Aplicar filtro a video
+        private void button8_Video_Apply_Click(object sender, EventArgs e)
+        {
+            applyFilter = true;
+        }
+        //QuitarFiltro de video
+        private void button9_Video_Remove_Click(object sender, EventArgs e)
+        {
+            applyFilter = false;
+        }
+        //AplicarFiltro video
+        private void aplicarFiltroVideo()
+        {
+            string filtroSeleccionado = comboBox3_Video.SelectedItem.ToString();
+            int valorTono = trackBar2_Video.Value; // Obtener el valor del trackBar correspondiente
+
+            switch (filtroSeleccionado)
+            {
+                case "Tono - Rojo":
+                    currentFrame = Filtros.aplicarTonoRojo(currentFrame, valorTono);
+                    break;
+                case "Tono - Verde":
+                    currentFrame = Filtros.aplicarTonoVerde(currentFrame, valorTono);
+                    break;
+                case "Tono - Azul":
+                    currentFrame = Filtros.aplicarTonoAzul(currentFrame, valorTono);
+                    break;
+                case "Negativo":
+                    currentFrame = Filtros.aplicarNegativo(currentFrame);
+                    break;
+                case "Aberracion Cromatica":
+                    currentFrame = Filtros.aplicarAberracion(currentFrame, 10);
+                    break;
+                case "Pixeleado":
+                    currentFrame = Filtros.aplicarPixeleado(currentFrame);
+                    break;
+                case "Color Slicing":
+                    byte[] newByte = { 1, 1, 1 };
+                    currentFrame = Filtros.ColorSlice(currentFrame, newByte, 50);
+                    break;
+                case "Viñeta":
+                    currentFrame = Filtros.aplicarViñeta(currentFrame);
+                    break;
+                case "Contraste":
+                    double valorContraste = 1.5; // Ajusta el valor de contraste según tus necesidades
+                    currentFrame = Filtros.aplicarContraste(currentFrame, valorContraste);
+                    break;
+                case "Agudizacion":
+                    currentFrame = Filtros.aplicarAgudizacion(currentFrame);
+                    break;
+                case "Correccion de Gama":
+                    double valorGamma = 1.5; // Ajusta el valor de gamma según tus necesidades
+                    currentFrame = Filtros.aplicarGamma(currentFrame, valorGamma);
+                    break;
+                case "Suavizado Gaussiano":
+                    currentFrame = Filtros.aplicarDesenfoque(currentFrame);
+                    break;
+                default:
+                    break;
+            }
+
+            pictureBox3_Video.Image = currentFrame;
+        }
+
+
         #endregion
 
         #region WebCam
@@ -219,18 +406,28 @@ namespace ProcesamientoDeImagenes
         //Metodo para actualizar PictureBox para camara 
         private void actualizarCamara(object sender, NewFrameEventArgs eventArgs)
         {
+            int cantidadCaras;
+
             Bitmap imagen = (Bitmap)eventArgs.Frame.Clone();
 
             Image<Bgr, byte> greayimage = imagen.ToImage<Bgr, byte>();
 
             Rectangle[] rectangles = cascadeClassifier.DetectMultiScale(greayimage, 1.2, 1);
+            cantidadCaras = rectangles.Length;
             if (rectangles.Length > 0)
             {
-                foreach (Rectangle rectangle in rectangles)
+
+
+                label6.Invoke((MethodInvoker)(() =>
                 {
-                    using (Graphics graphics = Graphics.FromImage(imagen))
+                    label6.Text = "Caras detectadas: " + cantidadCaras;
+                }));
+
+                using (Graphics graphics = Graphics.FromImage(imagen))
+                {
+                    using (Pen pen = new Pen(Color.Red, 3))
                     {
-                        using (Pen pen = new Pen(Color.Red, 1))
+                        foreach (Rectangle rectangle in rectangles)
                         {
                             graphics.DrawRectangle(pen, rectangle);
                         }
@@ -349,6 +546,7 @@ namespace ProcesamientoDeImagenes
             int[] histogramaAzul = histogram.CalculateHistogram(Histogram.ColorChannel.Blue, (Bitmap)pictureBoxImagen.Image);
             histogram.DrawHistogram(histogramaAzul, Color.Blue, pBAzul);
         }
+
     }
     public class Filtros
     {

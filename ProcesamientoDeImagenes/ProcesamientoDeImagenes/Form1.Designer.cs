@@ -35,6 +35,7 @@
             button2 = new Button();
             button1 = new Button();
             groupBox_Camara = new GroupBox();
+            label6 = new Label();
             label2_Camara = new Label();
             button7_Camara_Change = new Button();
             pictureBox_Camara = new PictureBox();
@@ -54,16 +55,9 @@
             pictureBox_Imagen = new PictureBox();
             comboBox_imagen = new ComboBox();
             groupBox_Video = new GroupBox();
-            button6 = new Button();
             button5 = new Button();
             button4 = new Button();
-            trackBar2 = new TrackBar();
-            label7 = new Label();
-            label6 = new Label();
-            label5 = new Label();
-            pictureBox_Videos_Azul = new PictureBox();
-            pictureBox_Videos_Verde = new PictureBox();
-            pictureBox_Videos_Rojo = new PictureBox();
+            trackBar2_Video = new TrackBar();
             pictureBox3_Video = new PictureBox();
             comboBox3_Video = new ComboBox();
             button8_Video_Apply = new Button();
@@ -83,10 +77,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox_Imagen_Rojo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Imagen).BeginInit();
             groupBox_Video.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox_Videos_Azul).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox_Videos_Verde).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox_Videos_Rojo).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar2_Video).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3_Video).BeginInit();
             groupBox1_Inicio.SuspendLayout();
             SuspendLayout();
@@ -174,6 +165,7 @@
             // 
             // groupBox_Camara
             // 
+            groupBox_Camara.Controls.Add(label6);
             groupBox_Camara.Controls.Add(label2_Camara);
             groupBox_Camara.Controls.Add(button7_Camara_Change);
             groupBox_Camara.Controls.Add(pictureBox_Camara);
@@ -185,6 +177,15 @@
             groupBox_Camara.TabStop = false;
             groupBox_Camara.Text = "Controles de Camara";
             groupBox_Camara.Visible = false;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.Location = new Point(562, 45);
+            label6.Name = "label6";
+            label6.Size = new Size(0, 30);
+            label6.TabIndex = 6;
             // 
             // label2_Camara
             // 
@@ -300,7 +301,7 @@
             groupBox_Imagen.Controls.Add(button5_Imagen_Save);
             groupBox_Imagen.Controls.Add(label_Imagen);
             groupBox_Imagen.FlatStyle = FlatStyle.Flat;
-            groupBox_Imagen.Location = new Point(1247, 124);
+            groupBox_Imagen.Location = new Point(196, 12);
             groupBox_Imagen.Name = "groupBox_Imagen";
             groupBox_Imagen.Size = new Size(980, 812);
             groupBox_Imagen.TabIndex = 7;
@@ -397,16 +398,9 @@
             // 
             // groupBox_Video
             // 
-            groupBox_Video.Controls.Add(button6);
             groupBox_Video.Controls.Add(button5);
             groupBox_Video.Controls.Add(button4);
-            groupBox_Video.Controls.Add(trackBar2);
-            groupBox_Video.Controls.Add(label7);
-            groupBox_Video.Controls.Add(label6);
-            groupBox_Video.Controls.Add(label5);
-            groupBox_Video.Controls.Add(pictureBox_Videos_Azul);
-            groupBox_Video.Controls.Add(pictureBox_Videos_Verde);
-            groupBox_Video.Controls.Add(pictureBox_Videos_Rojo);
+            groupBox_Video.Controls.Add(trackBar2_Video);
             groupBox_Video.Controls.Add(pictureBox3_Video);
             groupBox_Video.Controls.Add(comboBox3_Video);
             groupBox_Video.Controls.Add(button8_Video_Apply);
@@ -420,114 +414,56 @@
             groupBox_Video.Text = "Controles de Video";
             groupBox_Video.Visible = false;
             // 
-            // button6
-            // 
-            button6.Location = new Point(707, 317);
-            button6.Name = "button6";
-            button6.Size = new Size(252, 33);
-            button6.TabIndex = 24;
-            button6.Text = "Pausar";
-            button6.UseVisualStyleBackColor = true;
-            // 
             // button5
             // 
-            button5.Location = new Point(707, 361);
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.ForeColor = Color.Black;
+            button5.Location = new Point(547, 108);
             button5.Name = "button5";
-            button5.Size = new Size(252, 33);
+            button5.Size = new Size(163, 33);
             button5.TabIndex = 23;
             button5.Text = "Reiniciar";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click_1;
             // 
             // button4
             // 
-            button4.Location = new Point(707, 278);
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.ForeColor = Color.Black;
+            button4.Location = new Point(289, 108);
             button4.Name = "button4";
             button4.Size = new Size(252, 33);
             button4.TabIndex = 22;
-            button4.Text = "Reproducir";
+            button4.Text = "Reproducir // Pausar";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click_1;
             // 
-            // trackBar2
+            // trackBar2_Video
             // 
-            trackBar2.Location = new Point(707, 237);
-            trackBar2.Name = "trackBar2";
-            trackBar2.Size = new Size(252, 45);
-            trackBar2.TabIndex = 21;
-            trackBar2.Visible = false;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.Location = new Point(22, 662);
-            label7.Name = "label7";
-            label7.Size = new Size(38, 19);
-            label7.TabIndex = 13;
-            label7.Text = "Azul:";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(22, 526);
-            label6.Name = "label6";
-            label6.Size = new Size(47, 19);
-            label6.TabIndex = 12;
-            label6.Text = "Verde:";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(22, 397);
-            label5.Name = "label5";
-            label5.Size = new Size(39, 19);
-            label5.TabIndex = 11;
-            label5.Text = "Rojo:";
-            // 
-            // pictureBox_Videos_Azul
-            // 
-            pictureBox_Videos_Azul.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox_Videos_Azul.Location = new Point(22, 684);
-            pictureBox_Videos_Azul.Name = "pictureBox_Videos_Azul";
-            pictureBox_Videos_Azul.Size = new Size(937, 101);
-            pictureBox_Videos_Azul.TabIndex = 10;
-            pictureBox_Videos_Azul.TabStop = false;
-            // 
-            // pictureBox_Videos_Verde
-            // 
-            pictureBox_Videos_Verde.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox_Videos_Verde.Location = new Point(22, 548);
-            pictureBox_Videos_Verde.Name = "pictureBox_Videos_Verde";
-            pictureBox_Videos_Verde.Size = new Size(937, 101);
-            pictureBox_Videos_Verde.TabIndex = 9;
-            pictureBox_Videos_Verde.TabStop = false;
-            // 
-            // pictureBox_Videos_Rojo
-            // 
-            pictureBox_Videos_Rojo.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox_Videos_Rojo.Location = new Point(22, 419);
-            pictureBox_Videos_Rojo.Name = "pictureBox_Videos_Rojo";
-            pictureBox_Videos_Rojo.Size = new Size(937, 101);
-            pictureBox_Videos_Rojo.TabIndex = 8;
-            pictureBox_Videos_Rojo.TabStop = false;
+            trackBar2_Video.Location = new Point(716, 52);
+            trackBar2_Video.Name = "trackBar2_Video";
+            trackBar2_Video.Size = new Size(252, 45);
+            trackBar2_Video.TabIndex = 21;
+            trackBar2_Video.Visible = false;
             // 
             // pictureBox3_Video
             // 
             pictureBox3_Video.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox3_Video.Location = new Point(22, 19);
+            pictureBox3_Video.Location = new Point(8, 159);
             pictureBox3_Video.Name = "pictureBox3_Video";
-            pictureBox3_Video.Size = new Size(650, 365);
+            pictureBox3_Video.Size = new Size(960, 563);
+            pictureBox3_Video.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox3_Video.TabIndex = 7;
             pictureBox3_Video.TabStop = false;
             // 
             // comboBox3_Video
             // 
             comboBox3_Video.FormattingEnabled = true;
-            comboBox3_Video.Location = new Point(707, 70);
+            comboBox3_Video.Location = new Point(26, 74);
             comboBox3_Video.Name = "comboBox3_Video";
             comboBox3_Video.Size = new Size(252, 23);
             comboBox3_Video.TabIndex = 4;
+            comboBox3_Video.SelectedIndexChanged += comboBox3_Video_SelectedIndexChanged;
             // 
             // button8_Video_Apply
             // 
@@ -536,12 +472,13 @@
             button8_Video_Apply.FlatStyle = FlatStyle.Flat;
             button8_Video_Apply.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
             button8_Video_Apply.ForeColor = Color.Gainsboro;
-            button8_Video_Apply.Location = new Point(707, 112);
+            button8_Video_Apply.Location = new Point(289, 34);
             button8_Video_Apply.Name = "button8_Video_Apply";
             button8_Video_Apply.Size = new Size(252, 66);
             button8_Video_Apply.TabIndex = 3;
             button8_Video_Apply.Text = "Aplicar Filtro";
             button8_Video_Apply.UseVisualStyleBackColor = false;
+            button8_Video_Apply.Click += button8_Video_Apply_Click;
             // 
             // button9_Video_Remove
             // 
@@ -549,18 +486,19 @@
             button9_Video_Remove.FlatAppearance.BorderSize = 0;
             button9_Video_Remove.FlatStyle = FlatStyle.Flat;
             button9_Video_Remove.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
-            button9_Video_Remove.Location = new Point(707, 184);
+            button9_Video_Remove.Location = new Point(547, 34);
             button9_Video_Remove.Name = "button9_Video_Remove";
-            button9_Video_Remove.Size = new Size(252, 47);
+            button9_Video_Remove.Size = new Size(163, 66);
             button9_Video_Remove.TabIndex = 6;
             button9_Video_Remove.Text = "Quitar Filtro";
             button9_Video_Remove.UseVisualStyleBackColor = false;
+            button9_Video_Remove.Click += button9_Video_Remove_Click;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(707, 37);
+            label3.Location = new Point(26, 28);
             label3.Name = "label3";
             label3.Size = new Size(233, 30);
             label3.TabIndex = 4;
@@ -572,7 +510,7 @@
             groupBox1_Inicio.Controls.Add(label2);
             groupBox1_Inicio.Controls.Add(label1);
             groupBox1_Inicio.Enabled = false;
-            groupBox1_Inicio.Location = new Point(1196, 579);
+            groupBox1_Inicio.Location = new Point(196, 12);
             groupBox1_Inicio.Name = "groupBox1_Inicio";
             groupBox1_Inicio.Size = new Size(980, 812);
             groupBox1_Inicio.TabIndex = 9;
@@ -616,7 +554,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(134, 150, 254);
-            ClientSize = new Size(1297, 832);
+            ClientSize = new Size(1188, 832);
             Controls.Add(groupBox1_Inicio);
             Controls.Add(groupBox_Video);
             Controls.Add(groupBox_Camara);
@@ -640,10 +578,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox_Imagen).EndInit();
             groupBox_Video.ResumeLayout(false);
             groupBox_Video.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox_Videos_Azul).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox_Videos_Verde).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox_Videos_Rojo).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar2_Video).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3_Video).EndInit();
             groupBox1_Inicio.ResumeLayout(false);
             groupBox1_Inicio.PerformLayout();
@@ -689,14 +624,6 @@
         private Label label4;
         private Label label2;
         private Label label1;
-
-        private PictureBox pictureBox_Videos_Azul;
-        private PictureBox pictureBox_Videos_Verde;
-        private PictureBox pictureBox_Videos_Rojo;
-
-        private Label label7;
-        private Label label6;
-        private Label label5;
         private Label label8;
         private Label label9;
         private Label label10;
@@ -706,9 +633,9 @@
         private PictureBox pictureBox_Imagen_Rojo;
 
         private TrackBar trackBar1_imagen;
-        private TrackBar trackBar2;
-        private Button button6;
+        private TrackBar trackBar2_Video;
         private Button button5;
         private Button button4;
+        private Label label6;
     }
 }
