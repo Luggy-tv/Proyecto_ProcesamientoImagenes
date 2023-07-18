@@ -1,11 +1,9 @@
 using AForge.Video.DirectShow;
 using AForge.Video;
-using Emgu.CV;
 using System.Drawing.Imaging;
-using System.ComponentModel.Design;
-using Emgu.CV.Structure;
-using AForge.Imaging.Filters;
 using System.Runtime.InteropServices;
+using Emgu.CV;
+using Emgu.CV.Structure;
 
 namespace ProcesamientoDeImagenes
 {
@@ -15,9 +13,12 @@ namespace ProcesamientoDeImagenes
         private bool hayDispositivos = false;
         private FilterInfoCollection misDispositivos;
         private VideoCaptureDevice miWebCam;
+
         OpenFileDialog baseImage;
 
-        static readonly CascadeClassifier cascadeClassifier = new CascadeClassifier("haarcascade_frontalface_default.xml");
+        OpenFileDialog baseVideo;
+
+        static readonly CascadeClassifier cascadeClassifier = new CascadeClassifier("haarcascade_frontalface_alt_tree.xml");
 
         public Form1()
         {
@@ -52,7 +53,7 @@ namespace ProcesamientoDeImagenes
                 comboBox_imagen.Items.Add("Negativo");
                 comboBox_imagen.Items.Add("Aberracion Cromatica");
                 comboBox_imagen.Items.Add("Pixeleado");
-                comboBox_imagen.Items.Add("Deteccion de bordes");
+                comboBox_imagen.Items.Add("Color Slicing");
                 comboBox_imagen.Items.Add("Viñeta");
                 comboBox_imagen.Items.Add("Contraste");
                 comboBox_imagen.Items.Add("Agudizacion");
@@ -88,6 +89,14 @@ namespace ProcesamientoDeImagenes
         //Boton de Guardar Imagen
         private void button5_Click(object sender, EventArgs e)
         {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string fileName = "Imagen_" + Path.GetRandomFileName();
+            string filePath = Path.Combine(desktopPath, fileName + ".jpg");
+
+            Bitmap image = (Bitmap)pictureBox_Imagen.Image;
+            image.Save(filePath, ImageFormat.Jpeg);
+
+            MessageBox.Show("La imagen se ha guardado en el escritorio.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
         private void aplicarFiltro()
@@ -98,12 +107,14 @@ namespace ProcesamientoDeImagenes
             Bitmap imagenOriginal = (Bitmap)pictureBox_Imagen.Image;
             Bitmap imagenFiltrada;
             int valorTono;
+            byte[] newByte = { 1, 1, 1 };
 
             switch (filtroSeleccionado)
             {
+
                 case "Tono - Rojo":
                     valorTono = trackBar1_imagen.Value;
-                    imagenFiltrada = Filtros.aplicarTonoRojo(imagenOriginal,valorTono);
+                    imagenFiltrada = Filtros.aplicarTonoRojo(imagenOriginal, valorTono);
                     pictureBox_Imagen.Image = imagenFiltrada;
                     break;
                 case "Tono - Verde":
@@ -128,8 +139,8 @@ namespace ProcesamientoDeImagenes
                     imagenFiltrada = Filtros.aplicarPixeleado(imagenOriginal);
                     pictureBox_Imagen.Image = imagenFiltrada;
                     break;
-                case "Deteccion de bordes":
-                    imagenFiltrada = Filtros.aplicarDeteccion(imagenOriginal);
+                case "Color Slicing":
+                    imagenFiltrada = Filtros.ColorSlice(imagenOriginal, newByte, 50);
                     pictureBox_Imagen.Image = imagenFiltrada;
                     break;
                 case "Viñeta":
@@ -137,7 +148,7 @@ namespace ProcesamientoDeImagenes
                     pictureBox_Imagen.Image = imagenFiltrada;
                     break;
                 case "Contraste":
-                    imagenFiltrada = Filtros.aplicarContraste(imagenOriginal,1.5);
+                    imagenFiltrada = Filtros.aplicarContraste(imagenOriginal, 1.5);
                     pictureBox_Imagen.Image = imagenFiltrada;
                     break;
                 case "Agudizacion":
@@ -145,7 +156,7 @@ namespace ProcesamientoDeImagenes
                     pictureBox_Imagen.Image = imagenFiltrada;
                     break;
                 case "Correccion de Gama":
-                    imagenFiltrada = Filtros.aplicarGamma(imagenOriginal,1.5);
+                    imagenFiltrada = Filtros.aplicarGamma(imagenOriginal, 1.5);
                     pictureBox_Imagen.Image = imagenFiltrada;
                     break;
                 case "Suavizado Gaussiano":
@@ -156,7 +167,7 @@ namespace ProcesamientoDeImagenes
                     MessageBox.Show("Favor de seleccionar un filtro valido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
             }
-            
+
 
         }
         //Cambio de combobox de imagen
@@ -185,6 +196,17 @@ namespace ProcesamientoDeImagenes
         {
             cambiarPantalla(2);
 
+            baseVideo = new OpenFileDialog() { Multiselect = false, Filter = "Files (.mp4)|*.mp4" };
+
+            if (baseVideo.ShowDialog() == DialogResult.OK)
+            {
+
+            }
+            else
+            {
+                cambiarPantalla(0);
+            }
+
         }
         #endregion
 
@@ -192,20 +214,36 @@ namespace ProcesamientoDeImagenes
         //Boton de abrir camara
         private void button3_Click(object sender, EventArgs e)
         {
-            //cerrarWebCam();
             cambiarPantalla(3);
         }
         //Metodo para actualizar PictureBox para camara 
         private void actualizarCamara(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap imagen = (Bitmap)eventArgs.Frame.Clone();
-            //Image<Rgb, Byte> grayImage = new Image<Rgb, Byte>(imagen);
+
+            Image<Bgr, byte> greayimage = imagen.ToImage<Bgr, byte>();
+
+            Rectangle[] rectangles = cascadeClassifier.DetectMultiScale(greayimage, 1.2, 1);
+            if (rectangles.Length > 0)
+            {
+                foreach (Rectangle rectangle in rectangles)
+                {
+                    using (Graphics graphics = Graphics.FromImage(imagen))
+                    {
+                        using (Pen pen = new Pen(Color.Red, 1))
+                        {
+                            graphics.DrawRectangle(pen, rectangle);
+                        }
+                    }
+                }
+            }
             pictureBox_Camara.Image = imagen;
         }
         private void comboBox_Cam_SelectedIndexChanges(object sender, EventArgs e)
         {
 
         }
+
         //Cargar Dispositivos detectados en el sistema
         private void cargarDispositivios()
         {
@@ -232,7 +270,6 @@ namespace ProcesamientoDeImagenes
                 string nombreVideo = misDispositivos[j].MonikerString;
 
                 //pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-
                 miWebCam = new VideoCaptureDevice(nombreVideo);
                 miWebCam.NewFrame += new NewFrameEventHandler(actualizarCamara);
                 miWebCam.Start();
@@ -312,7 +349,6 @@ namespace ProcesamientoDeImagenes
             int[] histogramaAzul = histogram.CalculateHistogram(Histogram.ColorChannel.Blue, (Bitmap)pictureBoxImagen.Image);
             histogram.DrawHistogram(histogramaAzul, Color.Blue, pBAzul);
         }
-
     }
     public class Filtros
     {
@@ -501,17 +537,17 @@ namespace ProcesamientoDeImagenes
         {
             Bitmap imagenFiltrada = new Bitmap(imagen);
 
-         
+
             for (int x = 0; x < imagen.Width; x++)
             {
                 for (int y = 0; y < imagen.Height; y++)
                 {
                     Color pixel = imagen.GetPixel(x, y);
-                    
+
                     int r = pixel.R;
                     int g = pixel.G;
                     int b = pixel.B;
-                   
+
                     r += tonoRojo;
 
                     r = Math.Max(0, Math.Min(255, r));
@@ -613,9 +649,9 @@ namespace ProcesamientoDeImagenes
                 for (int y = 0; y < imagen.Height; y++)
                 {
                     Color pixel = imagen.GetPixel(x, y);
-                    int r = pixel.R; 
-                    int g = pixel.G; 
-                    int b = pixel.B; 
+                    int r = pixel.R;
+                    int g = pixel.G;
+                    int b = pixel.B;
                     int rDesplazado = (x + desp) < imagen.Width ? imagen.GetPixel(x + desp, y).R : 0;
                     int bDesplazado = (x - desp) >= 0 ? imagen.GetPixel(x - desp, y).B : 0;
                     Color nuevoPixel = Color.FromArgb(rDesplazado, g, bDesplazado);
@@ -677,97 +713,6 @@ namespace ProcesamientoDeImagenes
                     imagen.SetPixel(x, y, color);
                 }
             }
-        }
-        public static Bitmap aplicarDeteccion(Bitmap image)
-        {
-            Bitmap grayImage = Grayscale(image);
-            Bitmap edgesImage = SobelOperator(grayImage);
-            Bitmap thresholdedImage = Threshold(edgesImage, 30);
-
-            return grayImage;
-        }
-        public static Bitmap Grayscale(Bitmap image)
-        {
-            Bitmap grayImage = new Bitmap(image.Width, image.Height);
-
-            for (int y = 0; y < image.Height; y++)
-            {
-                for (int x = 0; x < image.Width; x++)
-                {
-                    Color pixel = image.GetPixel(x, y);
-                    int grayValue = (int)(pixel.R * 0.299 + pixel.G * 0.587 + pixel.B * 0.114);
-                    grayImage.SetPixel(x, y, Color.FromArgb(grayValue, grayValue, grayValue));
-                }
-            }
-
-            return grayImage;
-        }
-        public static Bitmap SobelOperator(Bitmap image)
-        {
-            int[,] gx = new int[,]
-            {       
-                { -1, 0, 1 },
-                { -2, 0, 2 },
-                { -1, 0, 1 }
-            };
-
-            int[,] gy = new int[,]
-            {
-                { -1, -2, -1 },
-                {  0,  0,  0 },
-                {  1,  2,  1 }
-            };
-
-            Bitmap edgesImage = new Bitmap(image.Width, image.Height);
-
-            for (int y = 1; y < image.Height - 1; y++)
-            {
-                for (int x = 1; x < image.Width - 1; x++)
-                {
-                    int gxSum = 0;
-                    int gySum = 0;
-
-                    for (int i = -1; i <= 1; i++)
-                    {
-                        for (int j = -1; j <= 1; j++)
-                        {
-                            Color pixel = image.GetPixel(x + i, y + j);
-                            int grayValue = pixel.R;
-                            gxSum += gx[i + 1, j + 1] * grayValue;
-                            gySum += gy[i + 1, j + 1] * grayValue;
-                        }
-                    }
-
-                    int gradient = (int)Math.Sqrt(gxSum * gxSum + gySum * gySum);
-                    edgesImage.SetPixel(x, y, Color.FromArgb(gradient, gradient, gradient));
-                }
-            }
-
-            return edgesImage;
-        }
-        public static Bitmap Threshold(Bitmap image, int threshold)
-        {
-            Bitmap thresholdedImage = new Bitmap(image.Width, image.Height);
-
-            for (int y = 0; y < image.Height; y++)
-            {
-                for (int x = 0; x < image.Width; x++)
-                {
-                    Color pixel = image.GetPixel(x, y);
-                    int intensity = pixel.R;
-
-                    if (intensity >= threshold)
-                    {
-                        thresholdedImage.SetPixel(x, y, Color.White);
-                    }
-                    else
-                    {
-                        thresholdedImage.SetPixel(x, y, Color.Black);
-                    }
-                }
-            }
-
-            return thresholdedImage;
         }
         public static Bitmap aplicarViñeta(Bitmap image)
         {
@@ -847,8 +792,49 @@ namespace ProcesamientoDeImagenes
 
             return correctedImage;
         }
+        public static Bitmap ColorSlice(Bitmap image, byte[] prototype_color, float color_cube_width)
+        {
+            int w = image.Width;
+            int h = image.Height;
 
+            BitmapData image_data = image.LockBits(
+                new Rectangle(0, 0, w, h),
+                ImageLockMode.ReadOnly,
+                PixelFormat.Format24bppRgb);
+            int bytes = image_data.Stride * image_data.Height;
 
+            byte[] buffer = new byte[bytes];
+            byte[] result = new byte[bytes];
+
+            Marshal.Copy(image_data.Scan0, buffer, 0, bytes);
+            image.UnlockBits(image_data);
+
+            //subtracting 3 from total amount of bytes will let you process images with odd number dimensions
+            for (int i = 0; i < bytes - 3; i += 3)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    if (Math.Abs(buffer[i + c] - prototype_color[c]) > (color_cube_width / 2))
+                    {
+                        result[i + c] = 128;
+                    }
+                    else
+                    {
+                        result[i + c] = buffer[i + c];
+                    }
+                }
+            }
+
+            Bitmap res_image = new Bitmap(w, h);
+            BitmapData result_data = res_image.LockBits(
+                new Rectangle(0, 0, w, h),
+                ImageLockMode.WriteOnly,
+                PixelFormat.Format24bppRgb);
+            Marshal.Copy(result, 0, result_data.Scan0, bytes);
+            res_image.UnlockBits(result_data);
+
+            return res_image;
+        }
     }
     public class Histogram
     {
@@ -926,6 +912,7 @@ namespace ProcesamientoDeImagenes
             return max;
         }
     }
+
 }
 
 

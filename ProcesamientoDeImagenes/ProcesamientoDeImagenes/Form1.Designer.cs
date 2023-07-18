@@ -54,6 +54,9 @@
             pictureBox_Imagen = new PictureBox();
             comboBox_imagen = new ComboBox();
             groupBox_Video = new GroupBox();
+            button6 = new Button();
+            button5 = new Button();
+            button4 = new Button();
             trackBar2 = new TrackBar();
             label7 = new Label();
             label6 = new Label();
@@ -297,7 +300,7 @@
             groupBox_Imagen.Controls.Add(button5_Imagen_Save);
             groupBox_Imagen.Controls.Add(label_Imagen);
             groupBox_Imagen.FlatStyle = FlatStyle.Flat;
-            groupBox_Imagen.Location = new Point(196, 12);
+            groupBox_Imagen.Location = new Point(1247, 124);
             groupBox_Imagen.Name = "groupBox_Imagen";
             groupBox_Imagen.Size = new Size(980, 812);
             groupBox_Imagen.TabIndex = 7;
@@ -394,6 +397,9 @@
             // 
             // groupBox_Video
             // 
+            groupBox_Video.Controls.Add(button6);
+            groupBox_Video.Controls.Add(button5);
+            groupBox_Video.Controls.Add(button4);
             groupBox_Video.Controls.Add(trackBar2);
             groupBox_Video.Controls.Add(label7);
             groupBox_Video.Controls.Add(label6);
@@ -414,9 +420,36 @@
             groupBox_Video.Text = "Controles de Video";
             groupBox_Video.Visible = false;
             // 
+            // button6
+            // 
+            button6.Location = new Point(707, 317);
+            button6.Name = "button6";
+            button6.Size = new Size(252, 33);
+            button6.TabIndex = 24;
+            button6.Text = "Pausar";
+            button6.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(707, 361);
+            button5.Name = "button5";
+            button5.Size = new Size(252, 33);
+            button5.TabIndex = 23;
+            button5.Text = "Reiniciar";
+            button5.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(707, 278);
+            button4.Name = "button4";
+            button4.Size = new Size(252, 33);
+            button4.TabIndex = 22;
+            button4.Text = "Reproducir";
+            button4.UseVisualStyleBackColor = true;
+            // 
             // trackBar2
             // 
-            trackBar2.Location = new Point(707, 249);
+            trackBar2.Location = new Point(707, 237);
             trackBar2.Name = "trackBar2";
             trackBar2.Size = new Size(252, 45);
             trackBar2.TabIndex = 21;
@@ -491,7 +524,7 @@
             // comboBox3_Video
             // 
             comboBox3_Video.FormattingEnabled = true;
-            comboBox3_Video.Location = new Point(707, 89);
+            comboBox3_Video.Location = new Point(707, 70);
             comboBox3_Video.Name = "comboBox3_Video";
             comboBox3_Video.Size = new Size(252, 23);
             comboBox3_Video.TabIndex = 4;
@@ -503,7 +536,7 @@
             button8_Video_Apply.FlatStyle = FlatStyle.Flat;
             button8_Video_Apply.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
             button8_Video_Apply.ForeColor = Color.Gainsboro;
-            button8_Video_Apply.Location = new Point(707, 124);
+            button8_Video_Apply.Location = new Point(707, 112);
             button8_Video_Apply.Name = "button8_Video_Apply";
             button8_Video_Apply.Size = new Size(252, 66);
             button8_Video_Apply.TabIndex = 3;
@@ -516,7 +549,7 @@
             button9_Video_Remove.FlatAppearance.BorderSize = 0;
             button9_Video_Remove.FlatStyle = FlatStyle.Flat;
             button9_Video_Remove.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point);
-            button9_Video_Remove.Location = new Point(707, 196);
+            button9_Video_Remove.Location = new Point(707, 184);
             button9_Video_Remove.Name = "button9_Video_Remove";
             button9_Video_Remove.Size = new Size(252, 47);
             button9_Video_Remove.TabIndex = 6;
@@ -539,7 +572,7 @@
             groupBox1_Inicio.Controls.Add(label2);
             groupBox1_Inicio.Controls.Add(label1);
             groupBox1_Inicio.Enabled = false;
-            groupBox1_Inicio.Location = new Point(196, 12);
+            groupBox1_Inicio.Location = new Point(1196, 579);
             groupBox1_Inicio.Name = "groupBox1_Inicio";
             groupBox1_Inicio.Size = new Size(980, 812);
             groupBox1_Inicio.TabIndex = 9;
@@ -583,7 +616,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(134, 150, 254);
-            ClientSize = new Size(1235, 832);
+            ClientSize = new Size(1297, 832);
             Controls.Add(groupBox1_Inicio);
             Controls.Add(groupBox_Video);
             Controls.Add(groupBox_Camara);
@@ -674,5 +707,8 @@
 
         private TrackBar trackBar1_imagen;
         private TrackBar trackBar2;
+        private Button button6;
+        private Button button5;
+        private Button button4;
     }
 }
